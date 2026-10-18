@@ -20,7 +20,7 @@ These instructions apply across this repository. Keep commuter work in `CMBT/` a
 
 - A weekly batch may contain all three commuter routes. Ingest each batch once and record its filename, received date, date coverage, schema version, route coverage, and QA result.
 - Deduplicate with stable route/service-date/trip/vehicle/stop-sequence keys. Preserve source provenance in processed outputs.
-- `ServiceImpactModel` is a public GitHub repository. Do not commit raw IVOMS/APC files, passenger-level records, credentials, or unapproved agency data. Keep raw batches in the approved source location; commit code, schemas, docs, tests, and only data explicitly approved for public release.
+- `ServiceImpactModel` is a public GitHub repository. Do not commit raw IVOMS/APC files, passenger-level records, credentials, or agency data payloads. Dropbox remains the source CSV system of record. GitHub Releases retain dated compressed processed snapshots after exact-file public-release approval; the repository and Pages contain code, documentation, tests, and a small manifest pointing to the current snapshot.
 - Confirm data-owner approval for the exact processed file and displayed metrics before publishing.
 
 ## Commuter service phases and measures
@@ -49,17 +49,20 @@ Reuse the Route 9 pilot's labels and chronological order: Early AM, AM Peak, Mor
 
 Audit the Route 9 implementation's Late category: its label says 10 PM–2 AM, while its fallback captures the remaining hours, including 2 AM–3:59 AM. Resolve and document the mapping; do not silently omit or relabel overnight service.
 
-## Unified file and GitHub's 100 MB limit
+## Unified file and dated Release storage
 
 - Produce one unified, documented processed commuter file for the visualization, with all three routes, a data dictionary, provenance, and QA fields.
-- Measure exact file size before each upload. Target at most 95 MiB; never exceed GitHub's 100 MB per-file limit.
+- Measure exact file size before each upload. Retain the 95 MiB project target for the unified browser input. GitHub's 100 MB Git-blob limit applies to repository files, not Release assets; processed payloads must not be committed even when below that limit.
 - A compressed CSV is acceptable if the browser can decompress and parse the single file. Test the deployed fetch path and parser.
 - Do not split the processed dataset into several files to bypass the requested unified-file design. If one approved file cannot fit below the safe target, stop before upload and document a compacting or approved hosting option in `CMBT/README.md` for user review.
 - Never commit raw weekly batches or sensitive intermediate files to this public repository.
+- Name processed Release assets with a snapshot date and content-hash prefix. Retain prior dated snapshots and never overwrite an existing asset. Manifest promotion follows uploaded-asset hash/size validation; retain its date, tag, asset ID, URL, coverage, and checksum for reproducibility and rollback.
 
 ## Visualization and publication
 
 Build an accessible static policy visualization using the approved unified file. Include scenario rankings, route/direction/time-slice filters, closure context, commuter phases, definitions, data coverage, and missing/unclassified-data warnings. Keep processing code in `CMBT/`; generate the publishable site into `Commuter/`.
+
+The Pages site fetches its small current manifest, then retrieves the referenced public GitHub Release asset without browser credentials. Verify cross-origin download/redirect behavior, gzip parsing, hash, size, and totals at the deployed Pages URL. Never embed GitHub tokens in the page or manifest, and do not fall back to committing the data payload if a remote fetch fails.
 
 Do not enable or claim GitHub Pages publication until data approval, build checks, file-size checks, and deployed URL verification pass. Do not expose passenger-level or sensitive operations details in charts, tooltips, downloads, or logs.
 

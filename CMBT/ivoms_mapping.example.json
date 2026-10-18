@@ -1,0 +1,23 @@
+{
+  "service_date": "OPD_DATE",
+  "route": "ROUTE",
+  "direction": "PATTERN_DIRECTION",
+  "trip_id": "Trip",
+  "vehicle_id": null,
+  "sequence": null,
+  "stop": "Stop",
+  "scheduled_departure": "Sched..Dep",
+  "scheduled_arrival": "Sched..Arr",
+  "actual_departure": "Actual.Dep",
+  "actual_arrival": "Actual.Arr",
+  "odometer": "Odometer.Miles",
+  "load": "LOAD",
+  "boardings": "BOARDINGS",
+  "alightings": "ALIGHTING",
+  "pattern_type": "PATTERN.TYPE",
+  "movement_values": {
+    "service journey": "scheduled_service"
+  },
+  "service_day_rollover_hour": 3,
+  "notes": "Template-derived column names, not verified against MobileStats. Set vehicle_id, sequence and exact movement labels from source inspection; do not infer deadhead from zero load."
+}

@@ -1,0 +1,31 @@
+name: Commuter checks
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: python -m unittest discover -s CMBT/tests -v
+      - run: node CMBT/tests/model.test.mjs
+      - run: node CMBT/tests/data.test.mjs
+      - run: node --check CMBT/site/app.mjs
+      - name: Verify generated assets match sources
+        run: |
+          python -m CMBT.build_site --output /tmp/commuter-build
+          for asset in index.html styles.css app.mjs model.mjs data.mjs data-dictionary.md; do
+            cmp "/tmp/commuter-build/$asset" "Commuter/$asset"
+          done
+      - name: Keep data payloads out of Git and Pages
+        run: |
+          test -z "$(git ls-files '*.csv.gz')"
+          test ! -d Commuter/data

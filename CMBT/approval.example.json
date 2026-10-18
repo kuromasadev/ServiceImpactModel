@@ -1,0 +1,19 @@
+{
+  "approved": false,
+  "approved_by": "",
+  "approved_at": "",
+  "evidence": "",
+  "sha256": "COPY_EXACT_SHA256_AFTER_DATA_OWNER_REVIEW",
+  "bytes": 0,
+  "metrics": [
+    "arrival_schedule_deviation",
+    "terminal_arrival_schedule_deviation",
+    "scheduled_observed_runtime",
+    "scheduled_observed_miles",
+    "non_revenue_runtime_miles",
+    "passenger_presence_classes",
+    "source_batch_hashes",
+    "coverage_qa",
+    "scenario_rankings"
+  ]
+}

@@ -1,0 +1,5 @@
+__pycache__/
+*.pyc
+CMBT/private/
+Commuter/data/
+*.csv.gz
